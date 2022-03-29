@@ -1,0 +1,99 @@
+---
+title: "Stats 20 Lesson 7"
+author: "Damien Ha, Student ID Number: 905-539-967"
+date: "7/13/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 1
+
+## A
+```{r}
+
+STmostrecent <- read.csv("STmostrecent.csv", header = TRUE)
+
+STdensity <- read.csv("STdensity.csv", header = TRUE)
+
+```
+A Question we might be able to answer using these two datasets could be: What is the number of covid cases per square mile in each state?
+
+
+
+
+# 2
+
+## A
+```{r}
+
+COmostrecent <- read.csv("COmostrecent.csv", header = TRUE)
+COlevel <- read.csv("COlevel.csv", header = TRUE)
+
+library(DT)
+
+COcombined <- merge(COmostrecent, COlevel, by = c("state", "county", "fips"))
+
+library(dplyr)
+COcombined2 <- inner_join(COmostrecent, COlevel, by = c("state", "county", "fips"))
+
+COcombined$casesperSQMI <- COcombined$cases/COcombined$SQMI
+
+COcombined2$casesperSQMI <- COcombined2$cases/COcombined2$SQMI
+
+```
+
+
+
+
+
+# 3
+
+## A
+This may have happened because covid has a wider reaching range than the locations listed in COlevel
+
+
+## B
+```{r}
+
+COleft <- merge(COlevel, COmostrecent, by = c("county", "state", "fips"), all.x = TRUE)
+
+COright <- merge(COlevel, COmostrecent, by = c("county", "state", "fips"), all.y = TRUE)
+
+```
+The left join has 3143 observations and the right join has 3218 observations. The left join has the same number of observations as COlevel while the right join matches the number of observations from COmostrecent
+
+
+## C
+```{r}
+
+library(dplyr)
+COleft2 <- left_join(COlevel, COmostrecent, by = c("county", "state", "fips"))
+
+COright2 <- right_join(COlevel, COmostrecent, by = c("county", "state", "fips"))
+
+```
+
+
+## D
+```{r}
+
+STjan20 <- read.csv("STjan20.csv", header = TRUE)
+STmar20 <- read.csv("STmar20.csv", header = TRUE)
+STjul20 <- read.csv("STjul20.csv", header = TRUE)
+SToct20 <- read.csv("SToct20.csv", header = TRUE)
+STdec20 <- read.csv("STdec20.csv", header = TRUE)
+STmar21 <- read.csv("STmar21.csv", header = TRUE)
+
+STall <- rbind(STjan20, STmar20, STjul20, SToct20, STdec20, STmar21)
+summary(STall)
+
+```
+
+
+
+
+
