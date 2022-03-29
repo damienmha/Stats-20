@@ -1,0 +1,187 @@
+---
+title: "Stats 20 Lesson 3"
+author: "Damien Ha, Student ID Number: 905-539-967"
+date: "6/27/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+    toc_depth: 2
+---
+
+
+
+## 5A
+
+### 1
+
+```{r 5A1}
+
+load("Lesson3.RData")
+ls()
+
+```
+
+### 2
+
+```{r 5A2}
+
+# There are 5 objects saved in Lesson3.RData
+
+```
+
+### 3
+
+```{r 5A3}
+
+# Testing if they're atomic
+is.atomic(Q5A_MAY21)
+is.atomic(Q5Alist)
+is.atomic(Q5D)
+is.atomic(Q5B)
+is.atomic(Q5C)
+
+# Testing if they're generic, can deduce this after using is.atomic but now trying it the other way around
+is.list(Q5A_MAY21)
+is.list(Q5Alist)
+is.list(Q5D)
+is.list(Q5B)
+is.list(Q5C)
+
+# Answer: There are 2 atomic vectors and 3 generic vectors
+
+```
+
+### 4
+
+```{r 5A4}
+
+
+save(Q5Alist, Q5C, file = "NEW.RData")
+
+
+```
+
+
+
+
+## 5B
+
+### 1
+
+```{r 5B1}
+
+
+Q5BS <- Q5B[Q5B < 100]
+Q5BS
+
+
+```
+
+### 2
+
+```{r 5B2}
+
+length(Q5BS)
+
+```
+
+### 3
+
+```{r 5B3}
+
+median(Q5B)
+
+```
+
+### 4
+
+```{r 5B4}
+
+# First we need to sort the values of Q5B from least to greatest. Then we need to locate the value in the middle. We can observe that Q5B has length 58. 58 is even, so the middle is shared by 2 values, in this case the 29th and 30th values. The median would be the average (the arithmetic mean) of these two values. If the length was odd, there would be a single value in the middle which would be the median
+
+
+```
+
+
+
+
+## 5C
+
+### 1
+
+```{r 5C1}
+
+
+states <- Q5C[which(!(Q5C %in% c("American Samoa", "Diamond Princess", "District of Columbia", "Guam", "Grand Princess", "Northern Mariana Islands", "Puerto Rico", "Virgin Islands")))]
+states
+
+
+```
+
+### 2
+
+```{r 5C2}
+
+Q5B
+Q5D210531 <- Q5D$Q5D210531
+Q5D210531
+# Q5D210531 and Q5B have the same values, but Q5B has a name (a location) corresponding to each value while Q5D210531 has the numbers alone
+
+```
+
+### 3
+
+```{r 5C3}
+
+names(Q5D210531)
+names(Q5D210531) <- Q5C 
+identical(Q5B, Q5D210531)
+
+```
+
+
+
+
+## 5D
+
+### 1
+
+```{r 5D1}
+
+Q5D200430 <- Q5D$Q5D200430
+Q5D201231 <- Q5D$Q5D201231
+
+names(Q5D200430) <- Q5C 
+names(Q5D201231) <- Q5C 
+
+Q5D210531[c("California")]
+Q5D200430[c("California")]
+Q5D201231[c("California")]
+
+```
+
+### 2
+
+```{r 5D2}
+
+
+Q5D201231 - Q5D200430 
+Q5D210531 - Q5D201231
+
+
+```
+
+
+
+### 3
+```{r 5D3}
+
+library(dplyr)
+tail(sort((Q5D201231 - Q5D200430)/Q5D200430), n = 1)
+tail(sort((Q5D210531 - Q5D201231)/Q5D201231), n = 1)
+
+```
+
+
