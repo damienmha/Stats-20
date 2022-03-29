@@ -1,0 +1,132 @@
+---
+title: "Stats 20 Practice Final 2"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/28/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 1
+
+## A
+```{r}
+
+load("extraPractice.RData")
+load("Zip_DEMO.RData")
+load("Zip_EDUC.RData")
+
+newdata <- merge(final20SP21, Zip_DEMO)
+finaldata <- merge(newdata, Zip_EDUC)
+
+# "final data" is my analysis data set. It automatically merged by zipcode since the data had that in common before
+
+dim(finaldata)
+
+# As we can see, it has 170135 observations of 115 variables
+
+```
+
+## B
+```{r}
+
+head(sort(tapply(finaldata$DEATHS, finaldata$zipcode, mean), decreasing = TRUE), n = 10)
+
+# So the most dangerous zipcodes are 62083, 66960, 78341, 79718, 78838, 03257, 05732, 13808, 18437, 19374
+# Frankly, since all of these had an average of over 3 deaths, I feel that they were most dangerous both for drivers and passengers
+# If the situations are dangerous enough for over 3 people to get killed on average, everyone in the car is in grave danger in my opinion
+
+```
+
+## C
+```{r}
+
+sort(tapply(finaldata$DEATHS, finaldata$MONTH, mean), decreasing = TRUE)
+sort(tapply(finaldata$DEATHS, finaldata$YEAR, mean), decreasing = TRUE)
+# On a large scale, there seems to be a slight downward trend in rate of deaths over time as the rate of deaths decreases over the years. Months on the other hand seem to be in a random order
+
+sort(tapply(finaldata$FATALS, finaldata$MONTH, mean), decreasing = TRUE)
+sort(tapply(finaldata$FATALS, finaldata$YEAR, mean), decreasing = TRUE)
+# Fatal injuries, on the other hand, seem to be somewhat higher in more recent years. There again seems to be no trend for months
+# However, it does seem now that July and February have higher rates in both cases and January and September usually has fairly low ones
+# Perhaps more people go crazy during the 4th of July and Valentine's day as compared to the mundane months of January and September
+
+head(sort(tapply(finaldata$DEATHS, finaldata$HOUR, mean), decreasing = TRUE), n = 10)
+head(sort(tapply(finaldata$FATALS, finaldata$HOUR, mean), decreasing = TRUE), n = 10)
+# Hours 3, 2, 1 and 0 seem to be the times with the most fatalities and deaths. This may be because they're late hours of the night/early hours of the morning
+
+```
+
+## D
+```{r}
+
+hist(finaldata$DR_WGT[finaldata$DR_WGT < 300], breaks = 30, 
+     xlab = "Driver Weight", main = "Histogram of Highway fatalities by Driver Weight")
+
+hist(finaldata$DR_HGT[finaldata$DR_HGT < 100], breaks = 30, 
+     xlab = "Driver Weight", main = "Histogram of Highway fatalities by Driver Height")
+
+sum(finaldata$DRUNK_DR) / nrow(finaldata)
+
+nrow(finaldata[finaldata$EJECTIONNAME == "Totally Ejected",]) / nrow(finaldata)
+nrow(finaldata[finaldata$DRINKINGNAME == "Yes (Alcohol Involved)",]) / nrow(finaldata)
+nrow(finaldata[finaldata$AGE <= 29,]) / 170135
+
+head(sort(tapply(finaldata$DEATHS, finaldata$AGE, mean), decreasing = TRUE), n = 10)
+head(sort(tapply(finaldata$FATALS, finaldata$AGE, sum), decreasing = TRUE), n = 10)
+
+head(sort(tapply(finaldata$DEATHS, finaldata$STATENAME, sum), decreasing = TRUE), n = 10)
+head(sort(tapply(finaldata$DEATHS, finaldata$STATENAME, mean), decreasing = TRUE), n = 10)
+
+head(sort(tapply(finaldata$FATALS, finaldata$STATENAME, sum), decreasing = TRUE), n = 10)
+head(sort(tapply(finaldata$FATALS, finaldata$STATENAME, mean), decreasing = TRUE), n = 10)
+
+# Amongst the factors that I tested, it seems that people in their 20s or younger are equally likely to end up in accidents as are drunk people, both of which are nearly 30%
+# People in Texas, California, Florida, and Georgia have the most deaths and fatalities. However, they do not have the highest average of deaths and fatalities, so the total numbers may be due to sheer population
+
+```
+
+
+
+
+
+# 2
+```{r}
+
+set.seed(905539967)
+
+age <- finaldata$AGE[finaldata$AGE < 100]
+
+datasample <- sample(age, 2000)
+
+par(bg = "thistle1")
+hist(datasample, breaks = 30, col = 'darkturquoise', border = 'black', 
+             xlab = "Age of Driver", ylab = "Frequency of Fatalities",
+             main = "Histogram of Highway Fatalities by Driver Age")
+
+# This is a histogram of frequency of crashes by driver age. 
+# It was created from a sample of 2000 observations with age less than 100 from the original merged data
+
+```
+
+
+
+
+
+# 3
+```{r}
+
+# I used tapply() in parts 1B, 1C and 1D
+
+```
+
+
+
+
+
+
+
+
