@@ -1,0 +1,65 @@
+---
+title: "Stats 20 Lesson 10"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/20/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 2
+
+## A
+```{r}
+
+library(dplyr)
+summary(lm(height ~ species, data = starwars))
+
+```
+
+
+## B
+```{r}
+
+x <- strsplit(starwars$species, split =", ") 
+head(x)
+
+starwars$speciesC <- NA 
+starwars$speciesC <- sapply(1:87, function(i) x[[i]][1]) 
+
+starwars$speciesC[grepl("Droid", starwars$speciesC, ignore.case = TRUE)] <- "Droid"
+starwars$speciesC[grepl("Human", starwars$speciesC, ignore.case = TRUE)] <- "Human"
+starwars$speciesC[!(starwars$speciesC %in% c("Droid", "Human"))] <- "Other"
+
+table(starwars$speciesC)
+
+```
+
+
+## C
+```{r}
+
+starwars <- as.data.frame(starwars)
+
+model <- lm(formula = height ~ speciesC, data = starwars)
+summary(model)
+
+```
+
+
+## D
+```{r}
+
+starwars$speciesF <- factor(starwars$speciesC, levels = c("Human", "Other", "Droid"))
+
+modelF <- lm(formula = height ~ speciesF, data = starwars)
+summary(modelF)
+
+```
+
+
+
+
