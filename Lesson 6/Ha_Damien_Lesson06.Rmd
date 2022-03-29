@@ -1,0 +1,90 @@
+---
+title: "Stats 20 Lesson 6"
+author: "Damien Ha, Student ID Number: 905-539-967"
+date: "7/6/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cerulean
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 1
+
+## A(1)
+```{r}
+
+object <- 1:20
+object2 <- c("Damien", "Ha", "UCLA", "2021")
+list1 <- list(object, object2, iris, rivers, ToothGrowth, PlantGrowth)
+str(list1)
+
+```
+
+## A(2)
+```{r}
+
+list1 <- list(Numbers = object, Name = object2, Flowers = iris, Rivers = rivers, Teeth = ToothGrowth, Plants = PlantGrowth)
+
+```
+
+## B(1)
+```{r}
+
+mymodel <- lm(swiss$Agriculture ~ swiss$Fertility)
+str(mymodel)
+
+```
+
+## B(2)
+```{r}
+
+residuals(mymodel)
+mymodel$residuals
+mymodel["residuals"]
+
+```
+
+## B(3)
+```{r}
+
+summary(mymodel)$call
+
+```
+
+
+
+
+
+# 2
+
+## A(1)
+```{r}
+
+library(rvest)
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_plants_used_in_Indian_cuisine")
+
+indian <- wiki %>% 
+  html_nodes(xpath = '//*[@id="mw-content-text"]/div/table') %>% 
+  html_table()
+
+leafy <- indian[[5]][-nrow(indian[[5]]), ]
+
+leafy
+
+```
+
+## A(2)
+```{r}
+
+nrow(indian[[1]]) + nrow(indian[[2]]) + nrow(indian[[3]]) + nrow(indian[[4]]) + nrow(indian[[5]]) + nrow(indian[[6]]) + nrow(indian[[7]]) + nrow(indian[[8]]) + nrow(indian[[9]]) + nrow(indian[[10]]) + nrow(indian[[11]]) + nrow(indian[[12]]) 
+
+```
+
+
+
+
+
+
+
