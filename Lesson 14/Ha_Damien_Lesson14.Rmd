@@ -1,0 +1,71 @@
+---
+title: "Stats 20 Lesson 14"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/26/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cerulean
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+```{r}
+
+# Loading data
+options(width = 120)
+load("Lesson14Data.RData")
+
+```
+
+
+
+
+
+# 1
+
+## A
+```{r}
+
+Lesson14Data[, c(2, 3, 6, 7)] <- lapply(c(2, 3, 6, 7), 
+  function(x) as.numeric(gsub("[^[:digit:]\\.-]+", "", Lesson14Data[,x])))
+
+summary(Lesson14Data[, c(2, 3, 6, 7)])
+
+```
+
+## B
+```{r}
+
+Lesson14Data$taxrev1 <- Lesson14Data$prices.taxedMax - Lesson14Data$prices.amountMin
+
+Lesson14Data$taxrev2 <- Lesson14Data$prices.taxedMin - Lesson14Data$prices.amountMax
+
+summary(Lesson14Data[, c(28, 29)])
+
+```
+
+
+
+
+
+# 2
+
+## A
+```{r}
+
+tail(sort(tapply(Lesson14Data$prices.amountMax, Lesson14Data$brand, sum), decreasing = TRUE), n = 10)
+
+```
+
+## B
+```{r}
+
+tail(sort(tapply(Lesson14Data$prices.amountMax, Lesson14Data$brand, length), decreasing = TRUE), n = 10)
+
+```
+
+
+
+
+
