@@ -1,0 +1,147 @@
+---
+title: "Stats 20 Lesson 5"
+author: "Damien Ha, Student ID Number: 905-539-967"
+date: "7/6/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cerulean
+    highlight: github
+    toc: true
+    toc_depth: 2
+---
+
+
+
+
+# 1
+
+## A(1)
+```{r}
+
+library(readr)
+newdataframe <- read_delim("https://www.gbcnv.edu/bookstore/2021-Fall.txt", "\t", col_names = FALSE, 
+col_types = cols(
+  X1 = col_skip(), 
+  X5 = col_skip(),  
+  X9 = col_skip(), 
+  X12 = col_skip(), 
+  X13 = col_skip()
+  ))
+newdataframe
+
+```
+
+## A(2)
+```{r}
+
+dim(newdataframe)
+
+```
+
+## A(3)
+```{r}
+
+one_B <- newdataframe
+one_B
+
+```
+
+## A(4)
+```{r}
+
+names(one_B) <- c("DEPT", "NUMBER", "COURSE", "ROOM", "BUILDING", "INSTRUCTOR", "ENROLL", "CAP")
+one_B
+
+```
+
+## B(1)
+```{r}
+
+mydata <- read.delim(file = "https://www.gbcnv.edu/bookstore/2021-Fall.txt", header = FALSE, sep = "\t")
+new_data_frame <- mydata[!(names(mydata) %in% c("V1", "V5", "V9", "V12", "V13"))]
+head(new_data_frame)
+
+```
+
+## B(2)
+```{r}
+
+dim(new_data_frame)
+
+```
+
+## B(3)
+```{r}
+
+one_A <- new_data_frame
+
+```
+
+## B(4)
+```{r}
+
+names(one_A) <- c("DEPT", "NUMBER", "COURSE", "ROOM", "LASTNAME", "FIRSTNAME", "ENROLL", "CAP")
+head(one_A)
+
+```
+
+
+
+
+
+# 2
+
+## A(1)
+```{r}
+
+load("ucpay2016.rdata")
+library(readr)
+head(ucpay[ucpay[ ,"Job Title"] == "TEACHG ASST-GSHIP", c("Year", "Job Title", "Total Pay", "Benefits", "Total Pay & Benefits")])
+# Using the head function because the entire output is very long
+
+```
+
+## A(2)
+```{r}
+
+csv1 <- ucpay[ucpay[ ,"Job Title"] == "TEACHG ASST-GSHIP", c("Year", "Job Title", "Total Pay", "Benefits", "Total Pay & Benefits")]
+write_csv(csv1, 'csvfile')
+
+```
+
+## A(3)
+```{r}
+
+csvfile1 <- read_csv("csvfile")
+head(csvfile1)
+
+```
+
+## B(1)
+```{r}
+
+load("ucpay2016.rdata")
+head(ucpay[ucpay[ ,"Job Title"] == "PROF-AY", c("Employee Name", "Total Pay & Benefits", "Year")])
+
+```
+
+## B(2)
+```{r}
+
+csv2 <- ucpay[ucpay[ ,"Job Title"] == "PROF-AY", c("Employee Name", "Total Pay & Benefits", "Year")]
+write.csv(csv2, 'csvfiletwo')
+head(csv2)
+
+```
+
+## B(3)
+```{r}
+
+csvfile2 <- read.csv("csvfiletwo")
+head(csvfile2)
+
+```
+
+
+
+
