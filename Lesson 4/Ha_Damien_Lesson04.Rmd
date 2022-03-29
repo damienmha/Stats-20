@@ -1,0 +1,140 @@
+---
+title: "Stats 20 Lesson 4"
+author: "Damien Ha, Student ID Number: 905-539-967"
+date: "7/6/2021"
+output:   
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+    toc_depth: 2
+---
+
+
+
+# Part 1
+
+## A
+
+### #1
+
+```{r}
+
+load("games1516.RData")
+load("games1718.RData")
+
+head(games2015)
+head(games2016)
+head(games2017)
+head(games2018)
+
+```
+
+
+
+## B
+
+### #1
+
+```{r}
+
+save(games2015, games2017, file = "stuff.RData")
+
+```
+
+### #2 
+```{r}
+
+save.image("~/Documents/Stats 20/Lesson 4/workspace1.RData")
+
+```
+
+
+
+## C
+
+### #1
+
+```{r}
+
+saveRDS(games2016, file = "newgames2016")
+
+```
+
+### #2
+
+```{r}
+
+head(readRDS("newgames2016"))
+# Using the head() function due to the file being very long, if we really wanted to see the whole thing then we'd do readRDS("newgames2016")
+
+```
+
+### #3
+```{r}
+
+# If there are several objects we wanted to saveRDS(), we could create a list of objects with everything we want and then saveRDS() using that list
+
+```
+
+
+
+
+
+# Part 2
+
+## A
+
+### #1
+
+```{r}
+
+mean(games2017[ , "away_final_score"])
+median(games2017[ , "away_final_score"])
+
+```
+
+
+### #2
+
+```{r}
+
+mean(games2017$away_final_score)
+median(games2017$away_final_score)
+
+```
+
+
+### #3
+
+```{r}
+
+games2016[games2016[ , "delay"] > 61, c("weather", "wind", "elapsed_time", "delay")]
+
+```
+
+
+
+## B
+
+### #1
+
+```{r}
+
+highscore <- games2018[games2018$home_final_score >= 10, c("attendance", "home_final_score", "away_final_score")]
+
+head(highscore)
+```
+
+
+### #2
+
+```{r}
+
+summary(highscore)
+str(highscore)
+
+```
+
+
+
