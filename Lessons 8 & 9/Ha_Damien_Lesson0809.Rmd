@@ -1,0 +1,227 @@
+---
+title: "Stats 20 Lessons 8 & 9"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/17/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 1
+```{r}
+
+load("lesson0809_1.RData")
+
+plot(EP, type="l", ann = FALSE, 
+     xlim = c(1, 18), ylim = c(0.0, 0.20), lwd = 2, 
+     col = "black")
+lines(LA, type="l", lwd = 2, col = "blue")
+lines(FL, type="l", lwd = 2, col = "green")
+lines(OM, type="l", lwd = 2, col = "magenta")
+
+axis(1, at = seq(1, 18, by = 1))
+
+axis(2, at = seq(0, 0.20, by = 0.05))
+
+legend(x = "topleft", 
+       legend = c("El Paso TX", "Los Angeles CA", "Miami FLA", "Omaha NE"), 
+       col = c('black', 'blue', 'green', 'magenta'), 
+       lty = 1, lwd = 2)
+
+title(xlab = "Month", ylab = "Cumulative Proportion of Covid Cases", 
+     main = "Covid Cases as a Cumulative Proportion of the Population 2020-21")
+
+```
+
+
+
+
+
+# 2
+```{r}
+
+load("lesson0809_2.RData")
+
+LAX$y_m <- paste0(rep("20", nrow(LAX)), LAX$y_m)
+NYC$y_m <- paste0(rep("20", nrow(LAX)), NYC$y_m)
+
+boxplot(log(value + 1) ~ y_m, data = LAX, col = "yellow", 
+        main = "Boxplot Example - Covid Deaths by Month for Los Angeles and New York",
+        xlab = "", ylab = "Logged Count of Deaths", cex = 0.5, las = 2)
+boxplot(log(value + 1) ~ y_m, data = NYC, col = "cyan", 
+        main = "Boxplot Example - Covid Deaths by Month for Los Angeles and New York",
+        xlab = "", ylab = "Logged Count of Deaths", cex = 0.5, add = TRUE, las = 2)
+
+legend(x = "top", legend = c("Los Angeles", "New York"), 
+       col = c("yellow", "cyan"), pch = 15)
+
+```
+
+
+
+
+
+# 3
+```{r}
+
+yelp <- read.csv("http://www.stat.ucla.edu/~vlew/datasets/yelp3.csv")
+
+par(mfrow = c(3,1))
+
+hist(yelp[yelp$categories.0 == "Vegan", 7], 
+     freq = FALSE, col = "orange", xlim = c(1, 5),
+     xlab = "Yelp Rating", ylab = "Density", main = "Vegan Rating")
+
+hist(yelp[yelp$categories.0 == "Buffets", 7], 
+     freq = FALSE, col = "blue", xlim = c(1, 5),
+     xlab = "Yelp Rating", ylab = "Density", main = "Buffets Rating")
+
+hist(yelp[yelp$categories.0 == "Sports Bars", 7], 
+     freq = FALSE, col = "maroon", xlim = c(1, 5),
+     xlab = "Yelp Rating", ylab = "Density", main = "Sports Bars Rating")
+
+```
+
+
+
+
+
+# 4
+## A
+```{r}
+
+library(ggplot2)
+plot(diamonds[1:1000, 
+              c("carat", "depth", "table", "price", "x", "y", "z")], 
+     main = "Scatterplot Matrix of ggplot dataset diamonds",
+     col = "magenta",
+     pch = 20)
+
+```
+
+## B
+```{r}
+
+load("~/Documents/Stats 20/Lab Data/labdata20SU21.RData")
+
+labdata20SU21A <- labdata20SU21[labdata20SU21$STATENAME == "Hawaii",]
+
+labdata20SU21A$QTR <- cut(labdata20SU21A$MONTH, 
+                         breaks = c(0, 3, 6, 9, 12), labels = c(1, 2, 3, 4))
+
+plot(labdata20SU21A$DR_WGT ~ labdata20SU21A$DR_HGT, ann = FALSE, 
+     col = labdata20SU21A$QTR,
+     pch = 19, cex = 0.5,
+     xlim = c(55, 82), ylim = c(80, 350))
+
+legend(x = "topleft", 
+       legend = c("1", "2", "3", "4"), 
+       col = c(1, 2, 3, 4), 
+       pch = 19)
+
+abline(v = mean(labdata20SU21A$DR_HGT[labdata20SU21A$DR_HGT < 84]), 
+       col = "red", lwd = 2)
+abline(v = median(labdata20SU21A$DR_HGT[labdata20SU21A$DR_HGT < 84]), 
+       col = "blue", lwd = 2)
+abline(h = mean(labdata20SU21A$DR_WGT[labdata20SU21A$DR_WGT < 500]), 
+       col = "red", lwd = 2)
+abline(h = median(labdata20SU21A$DR_WGT[labdata20SU21A$DR_WGT < 500]), 
+       col = "blue", lwd = 2)
+
+title(main = "Driver Height on Driver Weight by Quarter for Hawaii",
+      xlab = "Height", ylab = "Weight")
+
+```
+
+## C
+```{r}
+
+load("~/Documents/Stats 20/Lab Data/labdata20SU21.RData")
+
+labdata20SU21A <- labdata20SU21[labdata20SU21$STATENAME == "Hawaii",]
+
+labdata20SU21A$QTR <- cut(labdata20SU21A$MONTH, 
+                         breaks = c(0, 3, 6, 9, 12), labels = c(1, 2, 3, 4))
+
+labdata20SU21B <- labdata20SU21A[labdata20SU21A$DR_WGT < 500, ]
+labdata20SU21C <- labdata20SU21B[labdata20SU21B$DR_HGT < 84, ]
+
+plot((labdata20SU21C$DR_WGT) ~ (labdata20SU21C$DR_HGT), ann = FALSE, 
+     col = labdata20SU21C$QTR,
+     pch = 19, cex = 0.5,
+     xlim = c(55, 82), ylim = c(80, 350))
+
+legend(x = "topleft", 
+       legend = c("1", "2", "3", "4"), 
+       col = c(1, 2, 3, 4), 
+       pch = 19)
+
+abline(lm(labdata20SU21C$DR_WGT ~ labdata20SU21C$DR_HGT), 
+       col = "red", lwd = 2)
+lines(lowess(labdata20SU21C$DR_WGT ~ labdata20SU21C$DR_HGT), 
+       col = "black", lwd = 2)
+
+title(main = "Driver Height on Driver Weight by Quarter for Hawaii",
+      xlab = "Height", ylab = "Weight")
+
+```
+
+
+
+
+
+# 5
+## A
+```{r}
+
+par(mfrow = c(1, 2))
+barplot(HairEyeColor[ , 1, 1], col = "cyan", 
+        main = "Males Hair Color", xlab = "Color", ylab = "Count")
+barplot(HairEyeColor[ , 1, 2], col = "yellow", 
+        main = "Female Hair Color", xlab = "Color", ylab = "Count")
+
+```
+
+## B
+```{r}
+
+par(mfrow = c(1, 2))
+
+barplot(HairEyeColor[ , , 1], col = c("black", "brown", "red", "yellow"), 
+        main = "Male Hair Color by Eye Color", xlab = "Eye", ylab = "Count")
+legend(x = "topright", legend = c("Blond", "Red", "Brown", "Black"),
+       col = c("yellow", "red", "brown", "black"), pch = 15)
+
+barplot(HairEyeColor[ , , 2], col = c("black", "brown", "red", "yellow"), 
+        main = "Female Hair Color by Eye Color", xlab = "Eye", ylab = "Count")
+legend(x = "topright", legend = c("Blond", "Red", "Brown", "Black"),
+       col = c("yellow", "red", "brown", "black"), pch = 15)
+
+```
+
+## C
+```{r}
+
+par(mfrow = c(1, 2))
+
+malepercent <- apply(HairEyeColor[ , , 1], 2, function(x){x*100/sum(x,na.rm=T)})
+femalepercent <- apply(HairEyeColor[ , , 2], 2, function(x){x*100/sum(x,na.rm=T)})
+
+barplot(malepercent, col = c("black", "brown", "red", "yellow"), 
+        main = "Proportion Male Hair Color by Eye Color", xlab = "Eye", ylab = "Proportion")
+legend(x = "topright", legend = c("Blond", "Red", "Brown", "Black"),
+       col = c("yellow", "red", "brown", "black"), pch = 15)
+
+barplot(femalepercent, col = c("black", "brown", "red", "yellow"), 
+        main = "Proportion Female Hair Color by Eye Color", xlab = "Eye", ylab = "Proportion")
+legend(x = "topright", legend = c("Blond", "Red", "Brown", "Black"),
+       col = c("yellow", "red", "brown", "black"), pch = 15)
+
+```
+
+
+
+
