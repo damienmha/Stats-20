@@ -1,0 +1,129 @@
+---
+title: "Stats 20 Lesson 11"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/22/2021"
+output: 
+ prettydoc::html_pretty:
+    theme: cerulean
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+```{r}
+### Below is the code copied from the lesson in order to create the needed data
+```
+
+```{r}
+library(rvest)
+library(dplyr)
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_2017_box_office_number-one_films_in_the_United_States")
+
+movies2017 <- wiki %>% 
+  html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/table[1]') %>%
+  html_table() %>%
+  data.frame()
+names(movies2017) <- c("week_num", "week_end_date", "film", "gross", "notes", "refs")
+
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_2018_box_office_number-one_films_in_the_United_States")
+
+movies2018 <- wiki %>% 
+  html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/table[1]') %>%
+  html_table() %>%
+  data.frame()
+names(movies2018) <- c("week_num", "week_end_date", "film", "gross", "notes", "refs")
+
+
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_2019_box_office_number-one_films_in_the_United_States")
+
+movies2019 <- wiki %>% 
+  html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/table[1]') %>%
+  html_table() %>%
+  data.frame()
+names(movies2019) <- c("week_num", "week_end_date", "film", "gross", "notes", "refs")
+
+
+movies <- rbind(movies2017, movies2018, movies2019)
+
+movies$numeric_gross <- as.numeric(gsub(pattern = "\\$|,", "", x = movies$gross))
+movies <- movies[ , -6]
+
+```
+
+
+
+
+
+# 1
+## C
+### (1)
+```{r}
+
+length(unique(movies$film))
+
+```
+
+### (2)
+```{r}
+
+movies$end_date <- strptime(movies$week_end_date, "%B %d, %Y")
+head(movies$end_date)
+
+```
+
+### (3)
+```{r}
+
+movies$month <- as.factor(format(movies$end_date, "%m"))
+head(movies$month)
+
+```
+
+### (4)
+```{r}
+
+tapply(movies$numeric_gross, movies$month, sum)
+
+```
+
+
+
+
+
+# 2
+## A
+### (1)
+```{r}
+
+load("Lesson11.RData")
+
+received <- strptime(FD11$received_dttm, "%m/%d/%Y %H:%M:%S")
+FD11$received <- received
+head(FD11$received)
+
+onscene <- strptime(FD11$on_scene_dttm, "%m/%d/%Y %H:%M:%S")
+FD11$onscene <- onscene
+head(FD11$onscene)
+
+```
+
+### (2)
+```{r}
+
+minutediff <- difftime(FD11$onscene, FD11$received, units = "mins")
+FD11$minutediff <- minutediff
+head(FD11$minutediff)
+
+```
+
+### (3)
+```{r}
+
+fivenum(FD11$minutediff)
+
+```
+
+
+
+
+
