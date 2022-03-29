@@ -1,0 +1,106 @@
+---
+title: "Stats 20 Lesson 13"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/27/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: cerulean
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+# 4A
+
+## (1)
+```{r}
+
+cards <- c(2:10, "J", "Q", "K", "A")
+suits <- c("♠", "♥", "♦", "♣")
+deck <- paste0(rep(cards, length(suits)),  rep(suits, each = length(cards)))
+
+sample(deck, size = 10, replace = FALSE)
+sample(deck, size = 10, replace = TRUE)
+
+```
+
+## (2)
+```{r}
+
+replicate(6, sample(deck, 5, replace = FALSE))
+
+```
+
+
+
+
+
+# 4B
+
+## (1)
+```{r}
+
+library(mactivate)
+set.seed(101)
+
+data(df_hospitals_ortho)
+hospitalsample <- df_hospitals_ortho[sample(nrow(df_hospitals_ortho), size = 225, replace = FALSE),]
+median(hospitalsample$outpatient_visits)
+
+```
+
+## (2)
+```{r}
+
+hospitalsrep <- replicate(6, df_hospitals_ortho[sample(nrow(df_hospitals_ortho), size = 400, replace = FALSE),])
+
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 1])))
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 2])))
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 3])))
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 4])))
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 5])))
+mean(as.numeric(unlist(hospitalsrep["adm_costs", 6])))
+
+```
+
+
+
+
+
+# 4C
+
+## (1)
+```{r}
+
+library(ggplot2)
+
+txhousing$ID <- rownames(txhousing)
+
+training_txh <- sample(nrow(txhousing), size = floor(0.85*nrow(txhousing)))
+training <- txhousing[training_txh, ]
+testing <- txhousing[-training_txh, ]
+
+table(testing$ID %in% training$ID)
+
+```
+
+## (2)
+```{r}
+
+split <- sample(1:3, size = nrow(txhousing), prob = c(0.7, 0.2, 0.1), replace = TRUE)
+head(split, n = 30)
+
+table(split)
+
+training2 <- txhousing[split == 1, ]
+validation2 <- txhousing[split == 2, ]
+testing2 <- txhousing[split == 3, ]
+
+table(testing2$ID %in% training2$ID)
+table(testing2$ID %in% validation2$ID)
+table(validation2$ID %in% training2$ID)
+
+```
+
+
+
