@@ -1,0 +1,121 @@
+---
+title: "Stats 20 Lesson 12"
+author: "Damien Ha, Student ID Number 905-539-967"
+date: "7/20/2021"
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+    toc: TRUE
+    toc_depth: 2
+---
+
+```{r}
+
+### Packages used in this lesson
+
+library(dplyr)
+library(stringr)
+library(DT)
+
+```
+
+
+
+
+
+# 2
+
+## A
+``` {r}
+
+x <- paste(c(strwrap("But \U00C9omer said to them:", indent = 2),
+             strwrap("\n"),
+             strwrap("Mourn not overmuch! Mighty was the fallen,", indent = 10),
+             strwrap("meet was his ending. When his mound is raised,", indent = 10),
+             strwrap("women then shall weep. War now calls us!", indent = 10),
+             strwrap("\n"),
+             strwrap("Yet as he himself wept as he spoke, 'Let his knights remain"), 
+             strwrap("here,' he said, 'and bear his body in honour from the field,"), 
+             strwrap("lest the battle ride over it! Yea, and all these other of the"), 
+             strwrap("king's men that lie here. And he looked at the slain, recalling"), 
+             strwrap("their names. Then suddenly he behld his sister \U00C9owyn as"), 
+             strwrap("she lay, and he knew her. He stood a moment as a man who"), 
+             strwrap("is pierced in the midst of a cry by an arrow through the heart;"), 
+             strwrap("and then his face went deathly white, and a cold fury rose in"), 
+             strwrap("him, so that all speech failed him for a while. A fey mood"), 
+             strwrap("took him"),
+             strwrap("'\U00C9owyn, \U00C9owyn!' he cried at last. '\U00C9owyn, how come you", indent = 2),
+             strwrap("here? What madness or devilry is this? Death, death, death!"),
+             strwrap("Death take us all!'")))
+tmp <- tempfile()
+writeLines(x, con = tmp)
+readLines(tmp)
+
+```
+
+## B
+``` {r}
+
+line1 <- c("\n", "\U1F602", "\U1F60D", "\U1F61C")
+line2 <- c("\n", "\U1F352", "\U1F608", "\U1F602")
+line3 <- c("\n", "\U1F600", "\U1F60E", "\U1F352")
+           
+cat(line1, line2, line3)
+
+```
+
+
+
+
+
+# 3
+
+## A
+``` {r}
+
+cat("To print a backslash (\\), you need to use \\\\.")
+
+```
+
+## B
+``` {r}
+
+cat("#0000FF is the color and \\U1F499 is the symbol for this \U1F499 emoji")
+
+```
+
+
+
+
+
+# 4
+
+## A
+``` {r}
+
+percent_change  <- format(c(5, -9.89, 4.00, -4.002), digits = 2)
+percent_change
+
+```
+
+## B
+``` {r}
+
+salary <-  format(c(18.99, 5060.50, 20091.92, 1254563.11), digits = 1, scientific = FALSE)
+salary
+
+```
+
+## C
+``` {r}
+
+p_values <- format(c(0.02, 0.93, 0.0000391, 0.00000000003), scientific = FALSE)
+p_values
+
+```
+
+
+
+
+
